@@ -17,7 +17,7 @@ const getAll = async (req, res) => {
 };
 
 const getSingle = async (req, res, next) => {
-  // #swagger.tags['Recipes']
+  // #swagger.tags = ['Recipes']
   // #swagger.description = 'Get recipe by ID'
   try{
     if (!ObjectId.isValid(req.params.id)) {
