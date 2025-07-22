@@ -19,30 +19,31 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res, next) => {
   // #swagger.tags = ['Recipes']
   // #swagger.description = 'Get recipe by ID'
-  try{
+  try {
     if (!ObjectId.isValid(req.params.id)) {
-    const err = new Error('Must use a valid contact id to find a contact.');
-      err.status = 400; // Custom HTTP status
-     next(err);
-    // res.status(400).json('Must use a valid contact id to find a contact.');
-    // next('Must use a valid contact id to find a contact.');
+    return res.status(400).json({ message: 'Invalid recipe ID format.' });
   }
-  const recipeId = new ObjectId(req.params.id);
-  const db = mongodb.getDatabase(); 
-  const result = await db.collection('recipes').find({_id:recipeId});
-  result.toArray().then((users) => {
+
+    const recipeId = new ObjectId(req.params.id);
+    const db = mongodb.getDatabase();
+    const result = await db.collection('recipes').find({ _id: recipeId }).toArray();
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(users[0]);
-  });
-  }catch (err) {
+    res.status(200).json(result[0]);
+
+  } catch (err) {
     console.error('❌ Error getting the recipe:', err);
     res.status(500).json({
       success: false,
       message: 'Internal Server Error'
     });
   }
-  
-}
+};
+
 
 const createRecipe = async (req, res) => {
   // #swagger.tags = ['Recipes']
@@ -162,7 +163,7 @@ const deleteRecipe = async (req, res) => {
     // #swagger.tags = ['Recipes']
     // #swagger.description = 'Delete a recipe by ID'
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(400).json('Must use a valid contact id to delete a contact.');
+    return res.status(400).json({ message: 'Must use a valid recipe id to delete.' });
   }
   try {
     const recipeId = new ObjectId(req.params.id);
@@ -175,7 +176,7 @@ const deleteRecipe = async (req, res) => {
         message: 'Recipe deleted successfully'
       }) // success, no content
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'Recipe not found' });
     }
   } catch (err) {
     res.status(500).json({ message: err.message || 'Some error occurred while deleting the user' });
