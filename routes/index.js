@@ -2,7 +2,6 @@ const express = require("express");
 const router = new express.Router();
 const recipeRoutes = require('./recipes')
 
-// router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
 router.get("/", (req, res) => {
   // #swagger.tags = ['Hello World']
   res.send("Hello World")

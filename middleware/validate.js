@@ -1,29 +1,3 @@
-// const validator = require('../helpers/validate');
-
-// const saveContact = (req, res, next) => {
-//   const validationRule = {
- 
-//     fname: 'required|string',
-//     lname: 'required|string',
-//     address: ['required', 'regex:^\\d{1,3}-\\d{1,3} [A-Za-z\\s\\-]+, [A-Za-z\\s\\-]+$'],
-//     phone_number: ['required', 'regex:^0\\d{2} \\d{4} \\d{4}$']
-//   };
-//   validator(req.body, validationRule, {}, (err, status) => {
-//     if (!status) {
-//       res.status(412).send({
-//         success: false,
-//         message: 'Validation failed',
-//         data: err
-//       });
-//     } else {
-//       next();
-//     }
-//   });
-// };
-
-// module.exports = {
-//   saveContact
-// };
 const validator = require('../helpers/validate');
 
 const saveRecipe = (req, res, next) => {

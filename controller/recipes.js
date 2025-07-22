@@ -17,9 +17,10 @@ const getAll = async (req, res) => {
 };
 
 const getSingle = async (req, res, next) => {
-  //#swagger.tags['Recipes']
+  // #swagger.tags['Recipes']
   // #swagger.description = 'Get recipe by ID'
-  if (!ObjectId.isValid(req.params.id)) {
+  try{
+    if (!ObjectId.isValid(req.params.id)) {
     const err = new Error('Must use a valid contact id to find a contact.');
       err.status = 400; // Custom HTTP status
      next(err);
@@ -33,6 +34,14 @@ const getSingle = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(users[0]);
   });
+  }catch (err) {
+    console.error('❌ Error getting the recipe:', err);
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error'
+    });
+  }
+  
 }
 
 const createRecipe = async (req, res) => {
