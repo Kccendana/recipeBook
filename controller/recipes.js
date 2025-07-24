@@ -84,7 +84,7 @@ const createRecipe = async (req, res) => {
         id: response.insertedId
       });
     } else {
-      res.status(500).json({
+      res.status(400).json({
         success: false,
         message: 'Failed to create recipe'
       });

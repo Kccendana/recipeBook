@@ -61,7 +61,7 @@ const createContact = async (req, res) => {
         message: 'New Contact created',
       });
     }else {
-      res.status(500).json(response.error || "Some error occured while creating a new contact")
+      res.status(400).json(response.error || "Some error occured while creating a new contact")
     }
   } catch (err) {
     console.error('❌ Error creating contact:', err);
